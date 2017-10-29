@@ -20,3 +20,7 @@
 /public/packs
 /public/packs-test
 /node_modules
+
+#The coveralls gem depends on the simple_cov gem to test your code coverage. When your tests are run it will provide a report of your code coverage and put it into a /coverage directory. We want to ignore this to reduce noise in our git commits.
+/coverage
+.env # for coveralls key
