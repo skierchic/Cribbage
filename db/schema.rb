@@ -10,10 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171101110511) do
+ActiveRecord::Schema.define(version: 20171101232817) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cards", force: :cascade do |t|
+    t.string "suit", null: false
+    t.string "rank", null: false
+    t.boolean "played", default: false, null: false
+    t.boolean "in_crib", default: false, null: false
+    t.integer "player_id"
+    t.bigint "deck_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["deck_id"], name: "index_cards_on_deck_id"
+  end
+
+  create_table "decks", force: :cascade do |t|
+    t.bigint "round_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["round_id"], name: "index_decks_on_round_id"
+  end
 
   create_table "games", force: :cascade do |t|
     t.boolean "in_progress", default: false, null: false
@@ -21,6 +40,28 @@ ActiveRecord::Schema.define(version: 20171101110511) do
     t.integer "winner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "players", force: :cascade do |t|
+    t.integer "score", default: 0
+    t.integer "last_score", default: 0
+    t.boolean "is_dealer", default: false
+    t.bigint "user_id", null: false
+    t.bigint "game_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_players_on_game_id"
+    t.index ["user_id"], name: "index_players_on_user_id"
+  end
+
+  create_table "rounds", force: :cascade do |t|
+    t.string "current_stage", default: "new"
+    t.integer "count", default: 0
+    t.bigint "game_id"
+    t.integer "active_player_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_rounds_on_game_id"
   end
 
   create_table "users", force: :cascade do |t|

@@ -6,5 +6,6 @@ class User < ApplicationRecord
 
   validates :alias, presence: true
 
-  has_many :games_won, class_name: "Game", foreign_key: "winner_id"       
+  has_many :games_won, class_name: "Game", foreign_key: "winner_id"
+  has_many :players
 end
