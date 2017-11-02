@@ -7,6 +7,7 @@ gem "sass-rails", "~> 5.0"
 gem "uglifier", ">= 1.3.0"
 gem "webpacker"
 gem "foundation-rails"
+gem "devise"
 
 group :development do
   gem "listen", "~> 3.0.5"
@@ -16,7 +17,7 @@ end
 
 group :development, :test do
   gem "capybara"
-  gem "factory_girl_rails"
+  gem "factory_bot_rails"
   gem "launchy", require: false
   gem "pry-rails"
   gem "rspec-rails", "~> 3.5"
