@@ -11,10 +11,10 @@ class User < ApplicationRecord
   has_many :games_won, through: :players
 
   def win_count
-    self.games_won.count
+    games_won.count
   end
   def loss_count
-    completed_games = self.games.count(:winner_id)
-    loss_count = completed_games - self.win_count
+    completed_games = games.count(:winner_id)
+    loss_count = completed_games - win_count
   end
 end
