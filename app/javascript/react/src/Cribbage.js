@@ -2,7 +2,7 @@ import React from 'react';
 
 const Cribbage = props => {
   return(
-    <h1>Hello World</h1>
+    <h1>Cribbage - Coming Soon!!</h1>
   )
 }
 
