@@ -10,14 +10,16 @@ RSpec.describe Game, type: :model do
   it { should have_valid(:winner_id).when("", 2, 3)}
 
   let!(:user) {User.create(alias: "Jane", email: "jane@gmail.com", password:"password")}
-  let!(:game) {Game.create(winner: user)}
+  let!(:game) {Game.create()}
+  let!(:player_jane) {Player.create(user: user, game: game)}
   let!(:game2) {Game.create}
   let!(:round) {Round.create(game: game)}
   let!(:round2) {Round.create(game: game)}
   let!(:round3) {Round.create(game: game2)}
 
   it "should be able to return the winner" do
-    expect(game.winner.alias).to eq("Jane")
+    game.update(winner: player_jane)
+    expect(game.winner.user.alias).to eq("Jane")
   end
 
   it "should be able to find any rounds associated with it" do

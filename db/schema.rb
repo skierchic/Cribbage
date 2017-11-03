@@ -21,10 +21,9 @@ ActiveRecord::Schema.define(version: 20171101232817) do
     t.boolean "played", default: false, null: false
     t.boolean "in_crib", default: false, null: false
     t.integer "player_id"
-    t.bigint "deck_id", null: false
+    t.integer "deck_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["deck_id"], name: "index_cards_on_deck_id"
   end
 
   create_table "decks", force: :cascade do |t|
@@ -43,9 +42,9 @@ ActiveRecord::Schema.define(version: 20171101232817) do
   end
 
   create_table "players", force: :cascade do |t|
-    t.integer "score", default: 0
-    t.integer "last_score", default: 0
-    t.boolean "is_dealer", default: false
+    t.integer "score", default: 0, null: false
+    t.integer "last_score", default: 0, null: false
+    t.boolean "is_dealer", default: false, null: false
     t.bigint "user_id", null: false
     t.bigint "game_id", null: false
     t.datetime "created_at", null: false
@@ -55,8 +54,8 @@ ActiveRecord::Schema.define(version: 20171101232817) do
   end
 
   create_table "rounds", force: :cascade do |t|
-    t.string "current_stage", default: "new"
-    t.integer "count", default: 0
+    t.string "current_stage", default: "new", null: false
+    t.integer "count", default: 0, null: false
     t.bigint "game_id"
     t.integer "active_player_id"
     t.datetime "created_at", null: false

@@ -8,7 +8,7 @@ RSpec.describe Player, type: :model do
   it { should have_valid(:is_dealer).when(true, false) }
 
   let!(:user) {User.create(alias: "Jane", email: "jane@gmail.com", password:"password")}
-  let!(:game) {Game.create(winner: user)}
+  let!(:game) {Game.create()}
   let!(:player) {Player.create(game: game, user: user)}
   let!(:player_with_values) {Player.create(game: game, user: user, score: 5, last_score: 2, is_dealer: true)}
   let!(:round) {Round.create(game: game)}

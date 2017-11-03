@@ -6,6 +6,15 @@ class User < ApplicationRecord
 
   validates :alias, presence: true
 
-  has_many :games_won, class_name: "Game", foreign_key: "winner_id"
   has_many :players
+  has_many :games, through: :players
+  has_many :games_won, through: :players
+
+  def win_count
+    games_won.count
+  end
+  def loss_count
+    completed_games = games.count(:winner_id)
+    loss_count = completed_games - win_count
+  end
 end
