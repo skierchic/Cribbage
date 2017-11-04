@@ -11,7 +11,7 @@ jill = User.create(alias: "Jill", email: "jill@gmail.com", password:"password")
 game = Game.create()
 player_jack = Player.create(game: game, user: jack)
 player_jill = Player.create(game: game, user: jill)
-round = Round.create(game: game, active_player: jack)
+round = Round.create(game: game, active_player: player_jack)
 deck = Deck.create(round: round)
 
 suits = ["H", "S", "D", "C"]
@@ -22,3 +22,13 @@ suits.each do |suit|
     Card.create(deck: deck, suit: suit, rank: rank)
   end
 end
+
+game2 = Game.create()
+game2_player1 = Player.create(game: game2, user: jack)
+game3 = Game.create()
+game3_player1 = Player.create(game: game3, user: jack)
+game4 = Game.create(in_progress: true, needs_a_player: false)
+game4_player1 = Player.create(game: game4, user: jack)
+game4_player2 = Player.create(game: game4, user: jill)
+game5 = Game.create()
+game5_player1 = Player.create(game: game5, user: jill)
