@@ -24,6 +24,11 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
+    active_model_serializers (0.10.6)
+      actionpack (>= 4.1, < 6)
+      activemodel (>= 4.1, < 6)
+      case_transform (>= 0.2)
+      jsonapi-renderer (>= 0.1.1.beta1, < 0.2)
     activejob (5.1.4)
       activesupport (= 5.1.4)
       globalid (>= 0.3.6)
@@ -50,6 +55,8 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    case_transform (0.2)
+      activesupport
     coderay (1.1.2)
     concurrent-ruby (1.0.5)
     coveralls (0.7.1)
@@ -91,6 +98,7 @@ GEM
     i18n (0.9.0)
       concurrent-ruby (~> 1.0)
     json (2.1.0)
+    jsonapi-renderer (0.1.3)
     launchy (2.4.3)
       addressable (~> 2.3)
     listen (3.0.8)
@@ -247,6 +255,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_model_serializers
   capybara
   coveralls
   devise
@@ -270,6 +279,9 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   valid_attribute
   webpacker
+
+RUBY VERSION
+   ruby 2.3.3p222
 
 BUNDLED WITH
    1.15.4
