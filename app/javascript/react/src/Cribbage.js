@@ -1,8 +1,12 @@
 import React from 'react';
+import { Router } from 'react-router';
+import GameIndexContainer from './container/GameIndexContainer'
 
 const Cribbage = props => {
   return(
-    <h1>Cribbage - Coming Soon!!</h1>
+    <Router>
+      <Route path='/' component={GameIndexContainer}/>
+    </Router>
   )
 }
 
