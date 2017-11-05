@@ -1,10 +1,10 @@
 import React from 'react';
-import { Router } from 'react-router';
-import GameIndexContainer from './container/GameIndexContainer'
+import { Router, Route, browserHistory, IndexRoute } from 'react-router';
+import GameIndexContainer from './containers/GameIndexContainer'
 
 const Cribbage = props => {
   return(
-    <Router>
+    <Router history={browserHistory}>
       <Route path='/' component={GameIndexContainer}/>
     </Router>
   )
