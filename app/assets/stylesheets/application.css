@@ -13,3 +13,21 @@
  *= require_tree .
  *= require_self
  */
+/*body {
+  background-image: url(https://boardsandbees.files.wordpress.com/2013/05/crib.jpg);
+  background-size: cover;
+  opacity: 0.8;
+
+}*/
+.game_tile {
+  background-color: lightblue;
+  display: inline-block;
+  margin: 1%;
+  padding: 1%;
+  text-align: center;
+  border-radius: 10%;
+  cursor: pointer;
+}
+.new_game {
+  background-color: lightgreen;
+}
