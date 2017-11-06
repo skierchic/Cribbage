@@ -31,3 +31,86 @@
 .new_game {
   background-color: lightgreen;
 }
+.opponent_cards > div {
+ /*border: 2px solid rgb(233,171,88);
+ border-radius: 5px;
+ background-color: rgba(233,171,88,.5);
+ color: #d9480f;*/
+}.opponent_cards {
+ display: grid;
+ grid-template-columns: repeat(6, 100px);
+ grid-gap: 10px;
+ grid-template-rows: 80px 80px;
+ margin: 10px auto 10px auto;
+}
+
+.board > div {
+ background-color: black;
+ border-radius: 50%;
+}
+.board .peg {
+ background-color: red;
+}
+.board {
+ display: grid;
+ grid-template-columns: repeat(61, 8px);
+ grid-template-rows: 8px 8px 8px 8px;
+ grid-gap: 8px;
+}
+/*.board .space {
+ margin-left: -10px;
+ margin-right: 10px
+}*/
+
+.player_cards > div {
+ /*border: 2px solid rgb(233,171,88);
+ border-radius: 5px;
+ background-color: rgba(233,171,88,.5);
+ color: #d9480f;*/
+}.player_cards {
+ display: grid;
+ grid-template-columns: repeat(6, 1fr);
+ grid-gap: auto;
+ grid-auto-rows: minmax(100px, auto);
+ margin: 10px auto 10px auto;
+}
+
+img {
+ max-width: 200%;
+ max-height: 200%;
+}
+
+.opponent_cards .dealt {
+ grid-row: 1
+}
+
+.player_cards .dealt {
+ grid-row: 2
+}
+
+.opponent_cards .played {
+ grid-row: 2
+}
+
+.player_cards .played {
+ grid-row: 1
+}
+
+.one {
+ grid-column: 1
+}
+.two {
+ grid-column: 2
+}
+.three {
+ grid-column: 3
+}
+.four {
+ grid-column: 4
+}
+.five {
+ grid-column: 5
+}
+.six {
+ grid-column: 6
+}
