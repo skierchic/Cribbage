@@ -1,7 +1,8 @@
 import React from 'react';
 import GameInProgressTile from '../components/GameInProgressTile'
 import GameToJoinTile from '../components/GameToJoinTile'
-import GameForOthersToJoinTile from '../components/GameToJoinTile'
+import GameForOthersToJoinTile from '../components/GameForOthersToJoinTile'
+import NewGameTile from '../components/NewGameTile'
 
 
 class GameIndexContainer extends React.Component{
@@ -14,6 +15,8 @@ class GameIndexContainer extends React.Component{
       wins: null,
       losses: null
     }
+    this.addNewGame = this.addNewGame.bind(this)
+    this.addPlayerToGame = this.addPlayerToGame.bind(this)
   }
 
   componentDidMount() {
@@ -43,6 +46,50 @@ class GameIndexContainer extends React.Component{
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`))
   }
+
+  addNewGame(){
+    fetch('/api/v1/games.json', {
+     method: 'POST',
+     credentials: 'same-origin',
+     headers: { 'Content-Type': 'application/json' }
+   })
+   .then(response => {
+     if (response.ok) {
+       return response
+     } else {
+       let errorMessage = `${response.status} (${response.statusText})`;
+       let error = new Error(errorMessage);
+       throw(error);
+     }
+   })
+   .then(response => response.json())
+   .then(response => {
+     this.setState( {gamesForOthersToJoin: [response,...this.state.gamesForOthersToJoin]} )
+   })
+  }
+
+  addPlayerToGame(id){
+    fetch(`/api/v1/games/${id}.json`, {
+     method: 'PUT',
+     credentials: 'same-origin',
+     headers: { 'Content-Type': 'application/json' }
+   })
+   .then(response => {
+     if (response.ok) {
+       return response
+     } else {
+       let errorMessage = `${response.status} (${response.statusText})`;
+       let error = new Error(errorMessage);
+       throw(error);
+     }
+   })
+   .then(response => response.json())
+   .then(response => {
+     debugger
+
+   })
+  }
+
   render() {
     let gamesInProgress = this.state.gamesInProgress.map( game => {
       return(
@@ -56,17 +103,19 @@ class GameIndexContainer extends React.Component{
         />
       )
     })
-
+    // let addPlayerToGame = (event) => this.addPlayerToGame(event)
     let gamesToJoin = this.state.gamesToJoin.map( game => {
+      let addPlayerToGame = () => { this.addPlayerToGame(game.id) }
       return(
         <GameToJoinTile
           key={game.id}
+          id={game.id}
           player={game.player}
           createdAt={game.game_created_date}
+          handleClick={addPlayerToGame}
         />
       )
     })
-
     let gamesForOthersToJoin = this.state.gamesForOthersToJoin.map( game => {
       return(
         <GameForOthersToJoinTile
@@ -80,7 +129,8 @@ class GameIndexContainer extends React.Component{
       <div>
         All Time Record: {this.state.wins}:{this.state.losses} <br/>
 
-        
+        <NewGameTile handleClick={this.addNewGame}/> <br />
+
         Continue a Game: <br/>
         {gamesInProgress} <br/>
 

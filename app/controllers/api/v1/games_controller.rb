@@ -28,19 +28,34 @@ class Api::V1::GamesController < ApplicationController
   end
 
   def show
-    game = Game.find(params(:id))
-    render :json => game.rounds.last
+    if current_user
+      game = Game.find(params(:id))
+      render :json => game.rounds.last
+    else
+      render status: 403, json: { error: "Sign in to see current games"}.as_json
+    end
   end
 
   def create
-    game = Game.start_new(current_user)
-    render :json => game
+    if current_user
+      game = Game.start_new(current_user)
+      render :json => {
+        "id": game.id,
+        "game_created_date": game.created_at.strftime('%a %d %b %Y %l:%M%P')
+      }
+    else
+      render status: 403, json: { error: "Sign in to see current games"}.as_json
+    end
   end
 
   def update
-    game = Game.find(params(:id))
-    first_round = game.add_player_and_start(current_user)
-    render :json => first_round
+    if current_user
+      game = Game.find(params[:id])
+      first_round = game.add_player_and_start(current_user)
+      render :json => first_round
+    else
+      render status: 403, json: { error: "Sign in to see current games"}.as_json
+    end
   end
 
   private
