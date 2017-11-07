@@ -1,6 +1,6 @@
 import React from 'react'
 import CardTile from '../components/CardTile'
-import NewRoundTile from '../components/NewRoundTile'
+import NewRoundButton from '../components/NewRoundButton'
 
 class GameShowContainer extends React.Component {
   constructor(props) {
@@ -146,7 +146,7 @@ class GameShowContainer extends React.Component {
           Count: {this.state.count} <br/>
           {this.state.message}
         </div>
-        <NewRoundTile show={showNewRoundButton} handleClick={this.startNewRound}/>
+        <NewRoundButton show={showNewRoundButton} handleClick={this.startNewRound}/>
         <div className='player_cards'>
           {playerHand}
         </div>

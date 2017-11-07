@@ -1,6 +1,6 @@
 import React from 'react'
 
-const NewGameTile = props => {
+const NewGameButton = props => {
   return(
     <div className='game_tile new_game' onClick={props.handleClick}>
       Start a New Game
@@ -8,4 +8,4 @@ const NewGameTile = props => {
   )
 }
 
-export default NewGameTile
+export default NewGameButton

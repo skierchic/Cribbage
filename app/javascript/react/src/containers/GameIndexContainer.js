@@ -2,7 +2,7 @@ import React from 'react';
 import GameInProgressTile from '../components/GameInProgressTile'
 import GameToJoinTile from '../components/GameToJoinTile'
 import GameForOthersToJoinTile from '../components/GameForOthersToJoinTile'
-import NewGameTile from '../components/NewGameTile'
+import NewGameButton from '../components/NewGameButton'
 
 
 class GameIndexContainer extends React.Component{
@@ -129,7 +129,7 @@ class GameIndexContainer extends React.Component{
       <div>
         All Time Record: {this.state.wins}:{this.state.losses} <br/>
 
-        <NewGameTile handleClick={this.addNewGame}/> <br />
+        <NewGameButton handleClick={this.addNewGame}/> <br />
 
         Continue a Game: <br/>
         {gamesInProgress} <br/>
