@@ -91,22 +91,22 @@ class Api::V1::GamesController < ApplicationController
     end
   end
 
+#also defined in round controller - change one change the other consider refactoring in the futures
   def game_state_json(game)
     round = game.rounds.last
-    if game.players.first.user == current_user
-      player = game.players.first
-      opponent = game.players.second
-    else
-      opponent = game.players.first
-      player = game.players.second
-    end
+    player = round.player(current_user)
+    opponent = round.opponent(current_user)
 
     {
+      "roundId": round.id,
+      "playerAlias": current_user.alias,
       "playerHand": player.cards,
       "playerScore": player.score,
       "opponentScore": opponent.score,
-      "count": round.count
-
+      "count": round.count,
+      "message": "#{round.active_player.user.alias}'s turn",
+      "inProgress": round.in_progress,
+      "isActivePlayer": round.active_player.user == current_user
     }
   end
 end

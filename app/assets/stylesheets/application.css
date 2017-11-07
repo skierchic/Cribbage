@@ -19,6 +19,10 @@
   opacity: 0.8;
 
 }*/
+.message {
+  white-space: pre-wrap;
+}
+
 .game_tile {
   background-color: lightblue;
   display: inline-block;
@@ -113,4 +117,7 @@ img {
 }
 .six {
  grid-column: 6
+}
+.hide{
+  display: none
 }

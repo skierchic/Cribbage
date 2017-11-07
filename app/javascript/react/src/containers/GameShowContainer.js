@@ -1,10 +1,12 @@
 import React from 'react'
 import CardTile from '../components/CardTile'
+import NewRoundTile from '../components/NewRoundTile'
 
 class GameShowContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      playerAlias: "",
       playerHand: [{id: 1, rank: '2', suit: 'D', played: false, position: 'one'},
                       {id: 2, rank: '5', suit: 'H', played: false, position: 'two'},
                       {id: 3, rank: '8', suit: 'C', played: false, position: 'three'},
@@ -13,10 +15,13 @@ class GameShowContainer extends React.Component {
                       {id: 6, rank: 'K', suit: 'D', played: false, position: 'six'}],
       played: false,
       playerScore: 28,
-      opponentScore: 15
+      opponentScore: 15,
+      message: "test message here",
+      inProgress: true,
+      isActivePlayer: false
     };
-    this.handleClick = this.handleClick.bind(this)
-    this.changeCardPlayState = this.changeCardPlayState.bind(this)
+    this.handleCardSelect = this.handleCardSelect.bind(this)
+    this.startNewRound = this.startNewRound.bind(this)
   }
   componentDidMount() {
     let id = this.props.params['id']
@@ -41,17 +46,54 @@ class GameShowContainer extends React.Component {
     .catch(error => console.error(`Error in fetch: ${error.message}`))
   }
 
-  handleClick() {
-    let newState = !this.state.played
-    this.setState({played: newState})
+  handleCardSelect(id) {
+    let payload = { card_id: id }
+    this.updateRound(payload)
   }
-  changeCardPlayState(id) {
-    let newPlayerCards = this.state.playerHand.concat()
-    newPlayerCards[id - 1].played = !this.state.playerHand[id-1].played
-    this.setState({ playerHand: newPlayerCards })
+  updateRound(payload) {
+    fetch(`/api/v1/rounds/${this.state.roundId}.json`, {
+      method: 'PUT',
+      credentials: 'same-origin',
+      body: JSON.stringify(payload),
+      headers: { 'Content-Type': 'application/json' }
+    })
+    .then(response => {
+      if (response.ok) {
+        return response
+      } else {
+        let errorMessage = `${response.status} (${response.statusText})`;
+        let error = new Error(errorMessage);
+        throw(error);
+      }
+    })
+    .then(response => response.json())
+    .then(game => {
+      this.setState(game.round)
+    })
+  }
+
+  startNewRound(){
+    let game_id = this.props.params.id
+    fetch(`/api/v1/games/${game_id}/rounds.json`, {
+     method: 'POST',
+     credentials: 'same-origin',
+     headers: { 'Content-Type': 'application/json' }
+   })
+   .then(response => {
+     if (response.ok) {
+       return response
+     } else {
+       let errorMessage = `${response.status} (${response.statusText})`;
+       let error = new Error(errorMessage);
+       throw(error);
+     }
+   })
+   .then(response => response.json())
+   .then(game => {
+     this.setState(game.round)
+   })
   }
   render() {
-    debugger
     // let image = 'http://sweetclipart.com/multisite/sweetclipart/files/ace_of_hearts.png'
     // let image = 'http://res.freestockphotos.biz/pictures/15/15524-illustration-of-an-ace-of-diamonds-playing-card-pv.png'
     let opponentImage = this.state.played? require(`../../../../assets/images/AH.jpg`) : require(`../../../../assets/images/Yellow_back.jpg`)
@@ -61,12 +103,12 @@ class GameShowContainer extends React.Component {
     let playerHand = this.state.playerHand.map(card => {
       playerImage = require(`../../../../assets/images/${card.rank}${card.suit}.jpg`)
       playerClassName = card.played? `played ${card.position}` : `dealt ${card.position}`
-      let handleSingleClick = () => { this.changeCardPlayState(card.id)}
+      let handleCardSelect = () => { this.handleCardSelect(card.id)}
       return(
         <CardTile image={playerImage}
                   key={card.id}
                   className={playerClassName}
-                  onClick={handleSingleClick}
+                  onClick={handleCardSelect}
                 />
       )
     })
@@ -78,16 +120,19 @@ class GameShowContainer extends React.Component {
     track[this.state.playerScore] = <div key={this.state.playerScore} className="peg"></div>
     track[0] = <div key='0' className="peg"></div>
     track[1] = <div key='1' className="space"></div>
+
+    let showNewRoundButton = !this.state.inProgress && this.state.isActivePlayer
     return(
       <div className='wrapper'>
+        <div>Playing as {this.state.playerAlias}</div>
 
         <div className='opponent_cards'>
-          <CardTile image={opponentImage} name='One' className={className} onClick={this.handleClick}/>
-          <CardTile image={opponentImage} name='Two' className={className} onClick={this.handleClick}/>
-          <CardTile image={opponentImage} name='Three' className={className} onClick={this.handleClick}/>
-          <CardTile image={opponentImage} name='Four' className={className} onClick={this.handleClick}/>
-          <CardTile image={opponentImage} name='Five' className={className} onClick={this.handleClick}/>
-          <CardTile image={opponentImage} name='Six' className={className} onClick={this.handleClick}/>
+          <CardTile image={opponentImage} name='One' className={className} onClick={this.handleCardSelect}/>
+          <CardTile image={opponentImage} name='Two' className={className} onClick={this.handleCardSelect}/>
+          <CardTile image={opponentImage} name='Three' className={className} onClick={this.handleCardSelect}/>
+          <CardTile image={opponentImage} name='Four' className={className} onClick={this.handleCardSelect}/>
+          <CardTile image={opponentImage} name='Five' className={className} onClick={this.handleCardSelect}/>
+          <CardTile image={opponentImage} name='Six' className={className} onClick={this.handleCardSelect}/>
 
 
         </div>
@@ -97,7 +142,11 @@ class GameShowContainer extends React.Component {
           {track}
         </div>
         <hr/>
-        <div>Count: {this.state.count}</div>
+        <div className='message'>
+          Count: {this.state.count} <br/>
+          {this.state.message}
+        </div>
+        <NewRoundTile show={showNewRoundButton} handleClick={this.startNewRound}/>
         <div className='player_cards'>
           {playerHand}
         </div>

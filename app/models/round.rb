@@ -1,6 +1,7 @@
 class Round < ApplicationRecord
   validates :current_stage, inclusion: { in: ["new", "discard", "play", "count"]}
   validates :count, numericality: true
+  validates :in_progress, inclusion: { in: [true, false]} #needs to be added to test
 
   belongs_to :game
   belongs_to :active_player, class_name: "Player", optional: true
@@ -13,6 +14,16 @@ class Round < ApplicationRecord
 
   def dealer
     players.find_by(is_dealer: true)
+  end
+
+  #returns the player that belongs to the given user
+  def player(user)
+    players.find_by(user: user)
+  end
+
+  #returns the opponent playing against the given user
+  def opponent(user)
+    players.where.not(user: user).first
   end
 
   def self.start(game)
