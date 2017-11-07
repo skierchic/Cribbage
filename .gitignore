@@ -26,3 +26,5 @@
 
 # for coveralls key
 .env
+
+.DS_Store

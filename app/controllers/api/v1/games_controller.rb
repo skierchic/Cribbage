@@ -29,8 +29,8 @@ class Api::V1::GamesController < ApplicationController
 
   def show
     if current_user
-      game = Game.find(params(:id))
-      render :json => game.rounds.last
+      game = Game.find(params[:id])
+      render :json => {"round": game_state_json(game)}
     else
       render status: 403, json: { error: "Sign in to see current games"}.as_json
     end
@@ -89,5 +89,24 @@ class Api::V1::GamesController < ApplicationController
         "game_created_date": game.created_at.strftime('%a %d %b %Y %l:%M%P')
       }
     end
+  end
+
+#also defined in round controller - change one change the other consider refactoring in the futures
+  def game_state_json(game)
+    round = game.rounds.last
+    player = round.player(current_user)
+    opponent = round.opponent(current_user)
+
+    {
+      "roundId": round.id,
+      "playerAlias": current_user.alias,
+      "playerHand": player.cards,
+      "playerScore": player.score,
+      "opponentScore": opponent.score,
+      "count": round.count,
+      "message": "#{round.active_player.user.alias}'s turn",
+      "inProgress": round.in_progress,
+      "isActivePlayer": round.active_player.user == current_user
+    }
   end
 end

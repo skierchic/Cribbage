@@ -4,8 +4,10 @@ Rails.application.routes.draw do
   root 'static_pages#index'
   namespace :api do
     namespace :v1 do
-      resources :games, only: [:create, :update, :index, :show]
-      resources :rounds, only: [:create, :update, :show, :delete]
+      resources :games, only: [:create, :update, :index, :show] do
+        resources :rounds, only: [:create]
+      end
+      resources :rounds, only: [:update, :show, :delete]
     end
   end
   get '*path', to: 'static_pages#index'
