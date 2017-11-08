@@ -1,6 +1,6 @@
 import React from 'react'
 
-const NewRoundTile = props => {
+const NewRoundButton = props => {
   let display = props.show ? '' : 'hide'
   return(
     <div className={`game_tile new_game ${display}`} onClick={props.handleClick}>
@@ -9,4 +9,4 @@ const NewRoundTile = props => {
   )
 }
 
-export default NewRoundTile
+export default NewRoundButton
