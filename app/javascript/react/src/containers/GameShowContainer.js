@@ -1,6 +1,7 @@
 import React from 'react'
 import CardTile from '../components/CardTile'
 import NewRoundButton from '../components/NewRoundButton'
+import GoButton from '../components/GoButton'
 
 class GameShowContainer extends React.Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class GameShowContainer extends React.Component {
       count: 0
     };
     this.handleCardSelect = this.handleCardSelect.bind(this)
+    this.handleGo = this.handleGo.bind(this)
     this.startNewRound = this.startNewRound.bind(this)
   }
   componentDidMount() {
@@ -51,6 +53,12 @@ class GameShowContainer extends React.Component {
     let payload = { card_id: id }
     this.updateRound(payload)
   }
+
+  handleGo() {
+    let payload = { go: "Go" }
+    this.updateRound(payload)
+  }
+
   updateRound(payload) {
     fetch(`/api/v1/rounds/${this.state.roundId}.json`, {
       method: 'PUT',
@@ -72,6 +80,7 @@ class GameShowContainer extends React.Component {
       this.setState(game.round)
     })
   }
+
 
   startNewRound(){
     let game_id = this.props.params.id
@@ -144,6 +153,7 @@ class GameShowContainer extends React.Component {
     }
 
     let showNewRoundButton = !this.state.inProgress && this.state.isActivePlayer
+    let showGoButton = this.state.inProgress
     return(
       <div className='wrapper'>
         <div>Playing as {this.state.playerAlias}</div>
@@ -166,6 +176,7 @@ class GameShowContainer extends React.Component {
           {this.state.message}
         </div>
         <NewRoundButton show={showNewRoundButton} handleClick={this.startNewRound}/>
+        <GoButton show={showGoButton} handleClick={this.handleGo}/>
         <div className='player_cards'>
           {playerHand}
         </div>
