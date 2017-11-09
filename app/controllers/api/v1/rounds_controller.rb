@@ -39,12 +39,18 @@ class Api::V1::RoundsController < ApplicationController
         card_id = move["card_id"]
         card = Card.find(card_id)
         new_count = round.count + card.value
-        round.update(count: new_count)
-        card.update(played: true)
 
-        #set the active player and end the round or reset count if necessary
-        set_active_player(round)
-        render :json => {"round": game_state_json(round)}
+        #if playing the card will keep the count at or below 31, update count and card
+        if new_count <= 31
+          card.update(played: true)
+          round.update(count: new_count)
+          update_score_on_card(round)
+          #set the active player and end the round or reset count if necessary
+          set_active_player(round)
+          render :json => {"round": game_state_json(round)}
+        else
+          render :json => {"round": { message: "Count can't go over 31.  If you can't make a move, press 'Go'" }}
+        end
       elsif move.keys.include?("go")
         if player.go
           player.update(go: false)
@@ -101,5 +107,26 @@ class Api::V1::RoundsController < ApplicationController
         round.update(count: 0)
       end
     end
+  end
+
+  def update_score_on_card(round)
+    player = round.player(current_user)
+    opponent = round.opponent(current_user)
+
+    new_points = 0
+    case round.count
+    when 15
+      new_points = 2
+    when 31
+      new_points = 2
+      round.update(count: 0)
+    end
+
+    if new_points > 0
+      last_score = player.score
+      new_score = last_score + new_points
+      player.update(last_score: last_score, score: new_score)
+    end
+
   end
 end

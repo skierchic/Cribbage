@@ -131,6 +131,7 @@ class GameShowContainer extends React.Component {
     track[1] = <div key='1' className="space"></div>
 
     let showNewRoundButton = !this.state.inProgress && this.state.isActivePlayer
+    let showGoButton = this.state.inProgress
     return(
       <div className='wrapper'>
         <div>Playing as {this.state.playerAlias}</div>
@@ -153,10 +154,11 @@ class GameShowContainer extends React.Component {
         <hr/>
         <div className='message'>
           Count: {this.state.count} <br/>
-          {this.state.message}
+          {this.state.message} <br/>
+          Score: {this.state.playerScore} - {this.state.opponentScore}
         </div>
         <NewRoundButton show={showNewRoundButton} handleClick={this.startNewRound}/>
-        <GoButton handleClick={this.handleGo}/>
+        <GoButton show={showGoButton} handleClick={this.handleGo}/>
         <div className='player_cards'>
           {playerHand}
         </div>
