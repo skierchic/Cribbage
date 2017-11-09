@@ -13,27 +13,96 @@
  *= require_tree .
  *= require_self
  */
-/*body {
-  background-image: url(https://boardsandbees.files.wordpress.com/2013/05/crib.jpg);
-  background-size: cover;
-  opacity: 0.8;
-
-}*/
-.message {
-  white-space: pre-wrap;
+body {
+  margin: 0;
+  font-family: sans-serif;
 }
 
+.nav {
+  color: white;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: inline-block;
+  white-space: nowrap;
+  background-color: #36393B;
+  height: auto;
+  padding: 0em 1em;
+} .nav a{
+  color: white;
+  text-decoration: none;
+} .nav p{
+  display: inline-block;
+}
+.non_game_play {
+  background-image: url(background3.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+  overflow-y: scroll;
+  height: 78vh;
+  padding: 4em 1em;
+}
+.devise {
+  text-align: center;
+  vertical-align: middle;
+} .devise a{
+  color: white;
+  text-decoration: none;
+}
+.game_readout {
+  white-space: pre-wrap;
+  text-align: center;
+}
+
+/*@media screen and (min-width: 1300px) {
+  .classname {
+    some stuff: sdlkj;
+    overflow-y: scroll;
+  }
+}*/
+.banner {
+  /*background-color: #dbf1eb;*/
+  color: white;
+  height: 1.5em;
+  width: 100%
+  color: white;
+  padding-top: .5em;
+  padding-bottom: .2em;
+  border-style: solid none solid none;
+  border-width: 1.5px;
+  border-color: #36393B;
+}
 .game_tile {
-  background-color: lightblue;
+  /*background-image: url(board.png);
+  background-size: cover;*/
+  /*background-color: #dbf1eb;*/
+  /*background-color: #F4D4C1;*/
+  background-color: #E3D3CC;
+  color: #36393B;
   display: inline-block;
   margin: 1%;
-  padding: 1%;
+  padding: 1em;
   text-align: center;
-  border-radius: 10%;
+  border-radius: .5em;
+  border-style: solid;
+  border-width: 1.5px;
+  border-color: #36393B;
   cursor: pointer;
+  height: 8em;
+  width: 13em;
+} .game_tile a {
+  text-decoration: none;
+  color: inherit;
 }
 .new_game {
-  background-color: lightgreen;
+  background-image: none;
+  background-color: #65805A;
+  height: 2em;
+  width: 8em;
+}
+.wrapper {
+  padding: 1em;
 }
 .opponent_cards > div {
  /*border: 2px solid rgb(233,171,88);
@@ -41,25 +110,47 @@
  background-color: rgba(233,171,88,.5);
  color: #d9480f;*/
 }.opponent_cards {
- display: grid;
- grid-template-columns: repeat(6, 100px);
- grid-gap: 10px;
- grid-template-rows: 80px 80px;
- margin: 10px auto 10px auto;
+  display: grid;
+  grid-template-columns: repeat(6, 100px);
+  grid-gap: 10px;
+  grid-template-rows: 80px 80px;
+  margin: 10px auto 10px auto;
 }
 
 .board > div {
- background-color: black;
- border-radius: 50%;
+  background-color: black;
+  border-radius: 50%;
+  margin: .1em;
 }
 .board .peg {
- background-color: red;
+  background-color: #E50000;
+  margin: 0em;
+  border: .05em solid darkred;
+  box-shadow: 2px 1px 3px -1px rgba(0,0,0,0.6);
+} .board .empty {
+  background-color: green;
 }
 .board {
- display: grid;
- grid-template-columns: repeat(61, 8px);
- grid-template-rows: 8px 8px 8px 8px;
- grid-gap: 8px;
+  background-image: url(Board2.png);
+  background-size: contain;
+  display: grid;
+  grid-template-columns: repeat(31, .5em);
+  grid-template-rows: .5em .5em .5em .5em .5em;
+  grid-gap: .5em;
+  padding: .5em;
+  width: fit-content;
+}
+.opponent_track{
+  grid-row: 1;
+}
+.opponent_track2{
+  grid-row: 2;
+}
+.player_track1{
+  grid-row: 4;
+}
+.player_track2{
+  grid-row: 5;
 }
 /*.board .space {
  margin-left: -10px;
@@ -89,7 +180,8 @@ img {
 }
 
 .player_cards .dealt {
- grid-row: 2
+ grid-row: 2;
+ z-index: 2;
 }
 
 .opponent_cards .played {
@@ -97,7 +189,8 @@ img {
 }
 
 .player_cards .played {
- grid-row: 1
+ grid-row: 1;
+ z-index: 1;
 }
 
 .one {

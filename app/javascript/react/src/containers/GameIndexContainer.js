@@ -95,6 +95,7 @@ class GameIndexContainer extends React.Component{
       return(
         <GameInProgressTile
           key={game.id}
+          id={game.id}
           player1Name={game.players[0]}
           player2Name={game.players[1]}
           player1Score={game.score[0]}
@@ -126,18 +127,18 @@ class GameIndexContainer extends React.Component{
     })
 
     return(
-      <div>
-        All Time Record: {this.state.wins}:{this.state.losses} <br/>
+      <div className='non_game_play'>
+        All Time Win-Loss Record: {this.state.wins}:{this.state.losses} <br/>
 
         <NewGameButton handleClick={this.addNewGame}/> <br />
 
-        Continue a Game: <br/>
+        <div className='banner'>Continue a Game: </div>
         {gamesInProgress} <br/>
 
-        Join a Game: <br/>
+        <div className='banner'>Join a Game: </div>
         {gamesToJoin} <br/>
 
-        Your Games Waiting on An Opponent: <br/>
+        <div className='banner'>Your Games Waiting on An Opponent: </div>
         {gamesForOthersToJoin} <br/>
       </div>
     )
