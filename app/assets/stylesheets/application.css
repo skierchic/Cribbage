@@ -131,8 +131,8 @@ body {
   background-color: green;
 }
 .board {
-  background-image: url(board.png);
-  background-size: cover;
+  background-image: url(Board2.png);
+  background-size: contain;
   display: grid;
   grid-template-columns: repeat(31, .5em);
   grid-template-rows: .5em .5em .5em .5em .5em;
