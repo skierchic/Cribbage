@@ -18,7 +18,8 @@ class GameShowContainer extends React.Component {
       opponentScore: 15,
       message: "test message here",
       inProgress: true,
-      isActivePlayer: false
+      isActivePlayer: false,
+      count: 0
     };
     this.handleCardSelect = this.handleCardSelect.bind(this)
     this.startNewRound = this.startNewRound.bind(this)
@@ -93,6 +94,14 @@ class GameShowContainer extends React.Component {
      this.setState(game.round)
    })
   }
+
+  place_pegs(track, score) {
+    let rowIndex = Math.floor(score/31)
+    let columnIndex = score - 31 * rowIndex
+    rowIndex = rowIndex%2
+    let pegClass = `player_track${rowIndex+1} peg`
+    track[rowIndex][columnIndex] = <div key={columnIndex} className={pegClass}></div>
+  }
   render() {
     // let image = 'http://sweetclipart.com/multisite/sweetclipart/files/ace_of_hearts.png'
     // let image = 'http://res.freestockphotos.biz/pictures/15/15524-illustration-of-an-ace-of-diamonds-playing-card-pv.png'
@@ -113,13 +122,26 @@ class GameShowContainer extends React.Component {
       )
     })
 
-    let track = []
-    for(let hole = 0; hole < 122; hole ++) {
-      track.push(<div key={hole}></div>)
+    let playerTrack1 = []
+    for(let hole = 0; hole < 31; hole ++) {
+      playerTrack1.push(<div key={hole} className="player_track1"></div>)
     }
-    track[this.state.playerScore] = <div key={this.state.playerScore} className="peg"></div>
-    track[0] = <div key='0' className="peg"></div>
-    track[1] = <div key='1' className="space"></div>
+    let playerTrack2 = []
+    for(let hole = 0; hole < 31; hole ++) {
+      playerTrack2.push(<div key={hole} className="player_track2"></div>)
+    }
+    let playerTrack = [playerTrack1, playerTrack2]
+    playerTrack = this.place_pegs(playerTrack, this.state.count)
+    // track[this.state.playerScore] = <div key={this.state.playerScore} className="peg"></div>
+    // playerTrack[0] = <div key='0' className="peg"></div>
+    let opponentTrack1 = []
+    for(let hole = 0; hole < 31; hole ++) {
+      opponentTrack1.push(<div key={hole} className="opponent_track1"></div>)
+    }
+    let opponentTrack2 = []
+    for(let hole = 0; hole < 31; hole ++) {
+      opponentTrack2.push(<div key={hole} className="opponent_track2"></div>)
+    }
 
     let showNewRoundButton = !this.state.inProgress && this.state.isActivePlayer
     return(
@@ -131,19 +153,16 @@ class GameShowContainer extends React.Component {
           <CardTile image={opponentImage} name='Two' className={className} onClick={this.handleCardSelect}/>
           <CardTile image={opponentImage} name='Three' className={className} onClick={this.handleCardSelect}/>
           <CardTile image={opponentImage} name='Four' className={className} onClick={this.handleCardSelect}/>
-          <CardTile image={opponentImage} name='Five' className={className} onClick={this.handleCardSelect}/>
-          <CardTile image={opponentImage} name='Six' className={className} onClick={this.handleCardSelect}/>
-
 
         </div>
-        <hr/>
         <div className='board'>
-          {track}
-          {track}
+          {opponentTrack1}
+          {opponentTrack2}
+          {playerTrack1}
+          {playerTrack2}
         </div>
-        <hr/>
-        <div className='message'>
-          Count: {this.state.count} <br/>
+        <div className='game_readout'>
+          <h1>Count: {this.state.count}</h1>
           {this.state.message}
         </div>
         <NewRoundButton show={showNewRoundButton} handleClick={this.startNewRound}/>

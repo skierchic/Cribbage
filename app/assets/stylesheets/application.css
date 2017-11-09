@@ -50,8 +50,9 @@ body {
   color: white;
   text-decoration: none;
 }
-.message {
+.game_readout {
   white-space: pre-wrap;
+  text-align: center;
 }
 
 /*@media screen and (min-width: 1300px) {
@@ -119,17 +120,37 @@ body {
 .board > div {
   background-color: black;
   border-radius: 50%;
+  margin: .1em;
 }
 .board .peg {
-  background-color: red;
+  background-color: #E50000;
+  margin: 0em;
+  border: .05em solid darkred;
+  box-shadow: 2px 1px 3px -1px rgba(0,0,0,0.6);
+} .board .empty {
+  background-color: green;
 }
 .board {
-  /*background-image: url(board.png);*/
+  background-image: url(board.png);
   background-size: cover;
   display: grid;
-  grid-template-columns: repeat(61, 8px);
-  grid-template-rows: 8px 8px 8px 8px;
-  grid-gap: 8px;
+  grid-template-columns: repeat(31, .5em);
+  grid-template-rows: .5em .5em .5em .5em .5em;
+  grid-gap: .5em;
+  padding: .5em;
+  width: fit-content;
+}
+.opponent_track{
+  grid-row: 1;
+}
+.opponent_track2{
+  grid-row: 2;
+}
+.player_track1{
+  grid-row: 4;
+}
+.player_track2{
+  grid-row: 5;
 }
 /*.board .space {
  margin-left: -10px;
@@ -159,7 +180,8 @@ img {
 }
 
 .player_cards .dealt {
- grid-row: 2
+ grid-row: 2;
+ z-index: 2;
 }
 
 .opponent_cards .played {
@@ -167,7 +189,8 @@ img {
 }
 
 .player_cards .played {
- grid-row: 1
+ grid-row: 1;
+ z-index: 1;
 }
 
 .one {
