@@ -34,6 +34,10 @@ body {
 } .nav p{
   display: inline-block;
 }
+
+.nav_user {
+  text-align: right;
+}
 .non_game_play {
   background-image: url(background3.jpg);
   background-repeat: no-repeat;
