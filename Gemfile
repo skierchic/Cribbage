@@ -10,6 +10,7 @@ gem "foundation-rails"
 gem "devise"
 gem "active_model_serializers"
 gem "warden"
+gem "redis", "~> 3.0"
 
 group :development do
   gem "listen", "~> 3.0.5"
