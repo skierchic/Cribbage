@@ -1,6 +1,12 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  #JH To configure action cable's production URI and (use redis on heroku?)
+  config.web_socket_server_url = "wss://cribbageapp.herokuapp.com/cable"
+
+  #JH To allow request origin - Action Cable can only accept WebSocket requests from specified origins. We need to pass those origins to the Action Cable server's configuration as an array.
+  config.action_cable.allowed_request_origins = ['https://cribbageapp.herokuapp.com', 'http://cribbageapp.herokuapp.com']
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 

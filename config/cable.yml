@@ -6,5 +6,5 @@ test:
 
 production:
   adapter: redis
-  url: redis://localhost:6379/1
+  url: redis://redistogo:b165c06989c649a55de88a869dd3aebb@grouper.redistogo.com:11372/
   channel_prefix: Cribbage_production
