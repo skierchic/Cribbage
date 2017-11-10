@@ -39,7 +39,7 @@ body {
   text-align: right;
 }
 .non_game_play {
-  background-image: url(background3.jpg);
+  background-image: image-url("background3.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   color: white;
@@ -79,7 +79,7 @@ body {
   border-color: #36393B;
 }
 .game_tile {
-  /*background-image: url(board.png);
+  /*background-image: image-url("board.png");
   background-size: cover;*/
   /*background-color: #dbf1eb;*/
   /*background-color: #F4D4C1;*/
@@ -109,8 +109,8 @@ body {
 .wrapper {
   padding: 1em;
   /*background-color: #36393B;*/
-  background-image: url(dark_denim_background.png);
-  background-image: url(dark_stressed_linen.png);
+  background-image: image-url("dark_denim_background.png");
+  background-image: image-url("dark_stressed_linen.png");
 }
 .opponent_cards > div {
  /*border: 2px solid rgb(233,171,88);
@@ -139,7 +139,7 @@ body {
   background-color: green;
 }
 .board {
-  background-image: url(Board2.png);
+  background-image: image-url("Board2.png");
   background-size: contain;
   display: grid;
   grid-template-columns: repeat(31, .5em);
