@@ -53,6 +53,7 @@ body {
 .game_readout {
   white-space: pre-wrap;
   text-align: center;
+  color: white;
 }
 
 /*@media screen and (min-width: 1300px) {
@@ -103,6 +104,9 @@ body {
 }
 .wrapper {
   padding: 1em;
+  /*background-color: #36393B;*/
+  background-image: url(dark_denim_background.png);
+  background-image: url(dark_stressed_linen.png);
 }
 .opponent_cards > div {
  /*border: 2px solid rgb(233,171,88);
@@ -173,6 +177,10 @@ body {
 img {
  max-width: 200%;
  max-height: 200%;
+}
+.card {
+  border-radius: 7%;
+  border: 1px solid #36393B;
 }
 
 .opponent_cards .dealt {
