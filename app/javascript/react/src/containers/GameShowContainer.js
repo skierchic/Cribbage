@@ -27,6 +27,20 @@ class GameShowContainer extends React.Component {
     this.startNewRound = this.startNewRound.bind(this)
   }
   componentDidMount() {
+    App.gameChannel = App.cable.subscriptions.create(
+      {
+        channel: "GameChannel",
+        game_id: this.props.params['id']
+      },
+      {
+        connected: () => console.log("GameChannel connected"),
+        disconnected: () => console.log("GameChannel disconnected"),
+        received: data => {
+          this.setState(data)
+        }
+      }
+    );
+
     let id = this.props.params['id']
     fetch(`/api/v1/games/${id}`, {
      credentials: 'same-origin',
@@ -51,6 +65,7 @@ class GameShowContainer extends React.Component {
 
   handleCardSelect(id) {
     let payload = { card_id: id }
+    App.gameChannel.send({ card_id: id })
     this.updateRound(payload)
   }
 
