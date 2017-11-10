@@ -9,6 +9,7 @@ gem "webpacker"
 gem "foundation-rails"
 gem "devise"
 gem "active_model_serializers"
+gem "warden"
 
 group :development do
   gem "listen", "~> 3.0.5"
