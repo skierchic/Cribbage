@@ -35,8 +35,8 @@ class GameShowContainer extends React.Component {
       {
         connected: () => console.log("GameChannel connected"),
         disconnected: () => console.log("GameChannel disconnected"),
-        received: data => {
-          this.setState(data)
+        received: round => {
+          this.setState(round)
         }
       }
     );
@@ -75,48 +75,50 @@ class GameShowContainer extends React.Component {
   }
 
   updateRound(payload) {
-    fetch(`/api/v1/rounds/${this.state.roundId}.json`, {
-      method: 'PUT',
-      credentials: 'same-origin',
-      body: JSON.stringify(payload),
-      headers: { 'Content-Type': 'application/json' }
-    })
-    .then(response => {
-      if (response.ok) {
-        return response
-      } else {
-        let errorMessage = `${response.status} (${response.statusText})`;
-        let error = new Error(errorMessage);
-        throw(error);
-      }
-    })
-    .then(response => response.json())
-    .then(game => {
-      this.setState(game.round)
-    })
+    App.gameChannel.send(payload)
+    // fetch(`/api/v1/rounds/${this.state.roundId}.json`, {
+    //   method: 'PUT',
+    //   credentials: 'same-origin',
+    //   body: JSON.stringify(payload),
+    //   headers: { 'Content-Type': 'application/json' }
+    // })
+    // .then(response => {
+    //   if (response.ok) {
+    //     return response
+    //   } else {
+    //     let errorMessage = `${response.status} (${response.statusText})`;
+    //     let error = new Error(errorMessage);
+    //     throw(error);
+    //   }
+    // })
+    // .then(response => response.json())
+    // .then(game => {
+    //   this.setState(game.round)
+    // })
   }
 
 
   startNewRound(){
-    let game_id = this.props.params.id
-    fetch(`/api/v1/games/${game_id}/rounds.json`, {
-     method: 'POST',
-     credentials: 'same-origin',
-     headers: { 'Content-Type': 'application/json' }
-   })
-   .then(response => {
-     if (response.ok) {
-       return response
-     } else {
-       let errorMessage = `${response.status} (${response.statusText})`;
-       let error = new Error(errorMessage);
-       throw(error);
-     }
-   })
-   .then(response => response.json())
-   .then(game => {
-     this.setState(game.round)
-   })
+    let payload = { new_round: "new_round"}
+    this.updateRound(payload)
+  //   fetch(`/api/v1/games/${game_id}/rounds.json`, {
+  //    method: 'POST',
+  //    credentials: 'same-origin',
+  //    headers: { 'Content-Type': 'application/json' }
+  //  })
+  //  .then(response => {
+  //    if (response.ok) {
+  //      return response
+  //    } else {
+  //      let errorMessage = `${response.status} (${response.statusText})`;
+  //      let error = new Error(errorMessage);
+  //      throw(error);
+  //    }
+  //  })
+  //  .then(response => response.json())
+  //  .then(game => {
+  //    this.setState(game.round)
+  //  })
   }
 
   place_pegs(track, score) {
