@@ -2,8 +2,10 @@ import React from 'react'
 
 const NewGameButton = props => {
   return(
-    <div className='game_tile new_game' onClick={props.handleClick}>
-      Start a New Game
+    <div className='display_button'>
+      <div className='game_tile new_game' onClick={props.handleClick}>
+        Start a New Game
+      </div>
     </div>
   )
 }

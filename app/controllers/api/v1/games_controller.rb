@@ -41,7 +41,7 @@ class Api::V1::GamesController < ApplicationController
       game = Game.start_new(current_user)
       render :json => {
         "id": game.id,
-        "game_created_date": game.created_at.strftime('%a %d %b %Y %l:%M%P')
+        "game_created_date": game.created_at.strftime('%a %l:%M%P')
       }
     else
       render status: 403, json: { error: "Sign in to see current games"}.as_json
@@ -67,7 +67,7 @@ class Api::V1::GamesController < ApplicationController
         "players": [game.players.first.user.alias, game.players.second.user.alias],
         "score": [game.players.first.score, game.players.second.score],
         "active_player": game.rounds.last.active_player_id,
-        "last_played": game.rounds.last.updated_at.strftime('%a %d %b %Y %l:%M%P')
+        "last_played": game.rounds.last.updated_at.strftime('%a %l:%M%P')
       }
     end
   end
@@ -77,7 +77,7 @@ class Api::V1::GamesController < ApplicationController
       {
         "id": game.id,
         "player": game.players.first.user.alias,
-        "game_created_date": game.created_at.strftime('%a %d %b %Y %l:%M%P')
+        "game_created_date": game.created_at.strftime('%a %l:%M%P')
       }
     end
   end
@@ -86,7 +86,7 @@ class Api::V1::GamesController < ApplicationController
     user_games_need_a_player.map do |game|
       {
         "id": game.id,
-        "game_created_date": game.created_at.strftime('%a %d %b %Y %l:%M%P')
+        "game_created_date": game.created_at.strftime('%a %l:%M%P')
       }
     end
   end

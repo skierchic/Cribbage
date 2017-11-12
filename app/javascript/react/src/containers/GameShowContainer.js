@@ -195,6 +195,8 @@ class GameShowContainer extends React.Component {
         <NewRoundButton show={showNewRoundButton} handleClick={this.startNewRound}/>
         <GoButton show={showGoButton} handleClick={this.handleGo}/>
         <div className='player_cards'>
+          <div className='dealt'></div>
+          <div className='played'></div>
           {playerHand}
         </div>
 

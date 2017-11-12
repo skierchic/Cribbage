@@ -3,7 +3,7 @@ import React from 'react'
 const CardTile = (props) => {
   return(
     <div className={props.className} onClick={props.onClick}>
-      <img src={props.image} />
+      <img src={props.image} className='card'/>
       {/* <p>{props.name}</p> */}
     </div>
   )

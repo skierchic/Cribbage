@@ -25,7 +25,7 @@ body {
   width: 100%;
   display: inline-block;
   white-space: nowrap;
-  background-color: #36393B;
+  background-color: #09141D;
   height: auto;
   padding: 0em 1em;
 } .nav a{
@@ -33,15 +33,35 @@ body {
   text-decoration: none;
 } .nav p{
   display: inline-block;
+  // padding: 1em;
+
+}
+
+.nav_left {
+  float: left;
+  padding: .5em;
+}
+.nav_right {
+  float: right;
+  white-space: normal;
+  padding: .5em 3em .5em .5em;
 }
 .non_game_play {
-  background-image: url(background3.jpg);
+  background-image: image-url("background3.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   color: white;
   overflow-y: scroll;
   height: 78vh;
   padding: 4em 1em;
+}
+.index_top {
+  text-align: center;
+  font-size: 1.5em;
+}
+.display_button {
+  display: flex;
+  justify-content: center;
 }
 .devise {
   text-align: center;
@@ -53,6 +73,7 @@ body {
 .game_readout {
   white-space: pre-wrap;
   text-align: center;
+  color: white;
 }
 
 /*@media screen and (min-width: 1300px) {
@@ -65,7 +86,7 @@ body {
   /*background-color: #dbf1eb;*/
   color: white;
   height: 1.5em;
-  width: 100%
+  width: 100%;
   color: white;
   padding-top: .5em;
   padding-bottom: .2em;
@@ -74,7 +95,7 @@ body {
   border-color: #36393B;
 }
 .game_tile {
-  /*background-image: url(board.png);
+  /*background-image: image-url("board.png");
   background-size: cover;*/
   /*background-color: #dbf1eb;*/
   /*background-color: #F4D4C1;*/
@@ -100,9 +121,14 @@ body {
   background-color: #65805A;
   height: 2em;
   width: 8em;
+  display: flex;
+  justify-content: center;
 }
 .wrapper {
   padding: 1em;
+  /*background-color: #36393B;*/
+  background-image: image-url("dark_denim_background.png");
+
 }
 .opponent_cards > div {
  /*border: 2px solid rgb(233,171,88);
@@ -131,7 +157,7 @@ body {
   background-color: green;
 }
 .board {
-  background-image: url(Board2.png);
+  background-image: image-url("Board2.png");
   background-size: contain;
   display: grid;
   grid-template-columns: repeat(31, .5em);
@@ -173,6 +199,10 @@ body {
 img {
  max-width: 200%;
  max-height: 200%;
+}
+.card {
+  border-radius: 7%;
+  border: 1px solid #36393B;
 }
 
 .opponent_cards .dealt {
