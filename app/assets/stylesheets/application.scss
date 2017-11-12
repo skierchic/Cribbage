@@ -27,24 +27,36 @@ body {
   white-space: nowrap;
   background-color: #09141D;
   height: auto;
-  padding: 0em 1em;
+  padding: 0em 0em;
+  text-align: center;
 } .nav a{
   color: white;
   text-decoration: none;
-} .nav p{
+}
+.nav p{
   display: inline-block;
-  // padding: 1em;
+  margin: 0em;
+  font-size: .75em;
+  position: relative;
+  left: -50%;
 
 }
 
 .nav_left {
   float: left;
-  padding: .5em;
+  padding: .5em .5em .5em 1em;
+}
+.nav_center {
+  display: inline-block;
+  padding-top: .5em;
+  // padding-right: 1.5em;
+  position: absolute;
+  left: 50%
 }
 .nav_right {
   float: right;
   white-space: normal;
-  padding: .5em 3em .5em .5em;
+  padding: .5em 1em .5em .5em;
 }
 .non_game_play {
   background-image: image-url("background3.jpg");

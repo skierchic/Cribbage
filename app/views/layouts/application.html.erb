@@ -10,7 +10,11 @@
 
   <body>
     <div class='nav'>
-      <span class='nav_left'>Cribbage</span>
+      <span class='nav_left'><%= link_to "Cribbage", root_path %></span>
+      <span class='nav_center'>
+        <p class="notice"><%= notice %></p>
+        <p class="alert"><%= alert %></p>
+      </span>
       <span class='nav_right'>
         <% if user_signed_in? %>
         <span>Hello, <%= current_user.alias %>      </span>
@@ -20,8 +24,6 @@
         <%= link_to "Sign Up", new_user_registration_path %>
         <% end %>
       </span>
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
     </div>
     <%= yield %>
   </body>
