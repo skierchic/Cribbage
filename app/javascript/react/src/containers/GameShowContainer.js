@@ -173,8 +173,6 @@ class GameShowContainer extends React.Component {
     let showGoButton = this.state.inProgress
     return(
       <div className='wrapper'>
-        <div>Playing as {this.state.playerAlias}</div>
-
         <div className='opponent_cards'>
           <CardTile image={opponentImage} name='One' className={className} onClick={this.handleCardSelect}/>
           <CardTile image={opponentImage} name='Two' className={className} onClick={this.handleCardSelect}/>
