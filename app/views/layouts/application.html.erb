@@ -10,8 +10,8 @@
 
   <body>
     <div class='nav'>
-      <span>Cribbage</span>
-      <span class='nav_user'>
+      <span class='nav_left'>Cribbage</span>
+      <span class='nav_right'>
         <% if user_signed_in? %>
         <span>Hello, <%= current_user.alias %>      </span>
         <%= link_to "Sign Out", destroy_user_session_path, method: :delete %>

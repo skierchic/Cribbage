@@ -128,9 +128,10 @@ class GameIndexContainer extends React.Component{
 
     return(
       <div className='non_game_play'>
-        All Time Win-Loss Record: {this.state.wins}:{this.state.losses} <br/>
-
         <NewGameButton handleClick={this.addNewGame}/> <br />
+        <div className='index_top'>
+          All Time Win-Loss Record: {this.state.wins}:{this.state.losses} <br/>
+        </div>
 
         <div className='banner'>Continue a Game: </div>
         {gamesInProgress} <br/>

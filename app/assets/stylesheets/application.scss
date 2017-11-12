@@ -25,7 +25,7 @@ body {
   width: 100%;
   display: inline-block;
   white-space: nowrap;
-  background-color: #36393B;
+  background-color: #09141D;
   height: auto;
   padding: 0em 1em;
 } .nav a{
@@ -33,10 +33,18 @@ body {
   text-decoration: none;
 } .nav p{
   display: inline-block;
+  // padding: 1em;
+
 }
 
-.nav_user {
-  text-align: right;
+.nav_left {
+  float: left;
+  padding: .5em;
+}
+.nav_right {
+  float: right;
+  white-space: normal;
+  padding: .5em 3em .5em .5em;
 }
 .non_game_play {
   background-image: image-url("background3.jpg");
@@ -46,6 +54,14 @@ body {
   overflow-y: scroll;
   height: 78vh;
   padding: 4em 1em;
+}
+.index_top {
+  text-align: center;
+  font-size: 1.5em;
+}
+.display_button {
+  display: flex;
+  justify-content: center;
 }
 .devise {
   text-align: center;
@@ -105,12 +121,14 @@ body {
   background-color: #65805A;
   height: 2em;
   width: 8em;
+  display: flex;
+  justify-content: center;
 }
 .wrapper {
   padding: 1em;
   /*background-color: #36393B;*/
   background-image: image-url("dark_denim_background.png");
-  background-image: image-url("dark_stressed_linen.png");
+
 }
 .opponent_cards > div {
  /*border: 2px solid rgb(233,171,88);
