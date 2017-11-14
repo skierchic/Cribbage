@@ -129,8 +129,6 @@ class GameShowContainer extends React.Component {
     track[rowIndex][columnIndex] = <div key={columnIndex} className={pegClass}></div>
   }
   render() {
-    // let image = 'http://sweetclipart.com/multisite/sweetclipart/files/ace_of_hearts.png'
-    // let image = 'http://res.freestockphotos.biz/pictures/15/15524-illustration-of-an-ace-of-diamonds-playing-card-pv.png'
     let opponentImage = this.state.played? require(`../../../../assets/images/AH.jpg`) : require(`../../../../assets/images/Yellow_back.jpg`)
     let className = this.state.played? 'played' : 'dealt'
     let playerImage
