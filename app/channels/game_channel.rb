@@ -17,7 +17,6 @@ class GameChannel < ApplicationCable::Channel
     # string = "web_notifications:#{current_user.id}"
     # binding.pry
     # ActionCable.server.broadcast("user_#{current_user.id}", data)
-
     game = Game.find(params[:game_id])
     round = game.rounds.last
     #check that it the user's turn
@@ -37,7 +36,7 @@ class GameChannel < ApplicationCable::Channel
         if new_count <= 31
           card.update(played: true)
           round.update(count: new_count)
-          update_score_on_card(round)
+          score_on_card(round)
           #set the active player and end the round or reset count if necessary
           set_active_player(round)
           return_game_state(round)
@@ -48,10 +47,13 @@ class GameChannel < ApplicationCable::Channel
         if player.go
           player.update(go: false)
           round.update(count: 0)
-        else
+        elsif !opponent.hand.empty?
           opponent.update(go: true)
+          update_score(opponent, 1)
           set_active_player(round)
           message = "#{player.user.alias} gave a go ahead to #{opponent.user.alias}.  "
+        else
+          round.update(count: 0)
         end
         return_game_state(round)
         # ActionCable.server.broadcast("game_#{params[:game_id]}", game_state_json(round))
@@ -127,25 +129,36 @@ class GameChannel < ApplicationCable::Channel
     end
   end
 
-  def update_score_on_card(round)
+  def score_on_card(round)
     player = round.player(current_user)
     opponent = round.opponent(current_user)
 
     new_points = 0
+
+    # 2 points for hitting 15 or 31 (only 1 point if player has a go b/c they already got one point)
     case round.count
     when 15
-      new_points = 2
+      new_points += 2
     when 31
-      new_points = 2
       round.update(count: 0)
+      if player.go
+        new_points += 1
+        player.update(go: false)
+      else
+        new_points += 2
+      end
     end
 
-    if new_points > 0
-      last_score = player.score
-      new_score = last_score + new_points
-      player.update(last_score: last_score, score: new_score)
-    end
+    # 1 point for last card
+    if player.hand.empty? && opponent.hand.empty?
+      new_points += 1
+    end 
+  end
 
+  def update_score(player, points_to_add)
+    last_score = player.score
+    new_score = last_score + points_to_add
+    player.update(last_score: last_score, score: new_score)
   end
 
   def create
@@ -157,6 +170,7 @@ class GameChannel < ApplicationCable::Channel
     #check that round is actually over before deleting round and starting new round
     if player.hand.empty? && opponent.hand.empty?
       if round.active_player.user == current_user
+        binding.pry
         Round.delete_round(round)
         player.update(is_dealer: !player.is_dealer)
         opponent.update(is_dealer: !opponent.is_dealer)
