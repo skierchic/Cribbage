@@ -125,12 +125,10 @@ class GameShowContainer extends React.Component {
     let rowIndex = Math.floor(score/31)
     let columnIndex = score - 31 * rowIndex
     rowIndex = rowIndex%2
-    let pegClass = `player_track${rowIndex+1} peg`
+    let pegClass = track[rowIndex][columnIndex].props.className + " peg"
     track[rowIndex][columnIndex] = <div key={columnIndex} className={pegClass}></div>
   }
   render() {
-    // let image = 'http://sweetclipart.com/multisite/sweetclipart/files/ace_of_hearts.png'
-    // let image = 'http://res.freestockphotos.biz/pictures/15/15524-illustration-of-an-ace-of-diamonds-playing-card-pv.png'
     let opponentImage = this.state.played? require(`../../../../assets/images/AH.jpg`) : require(`../../../../assets/images/Yellow_back.jpg`)
     let className = this.state.played? 'played' : 'dealt'
     let playerImage
@@ -138,7 +136,7 @@ class GameShowContainer extends React.Component {
     let playerHand = this.state.playerHand.map(card => {
       playerImage = require(`../../../../assets/images/${card.rank}${card.suit}.jpg`)
       playerClassName = card.played? `played ${card.position}` : `dealt ${card.position}`
-      let handleCardSelect = () => { this.handleCardSelect(card.id)}
+      let handleCardSelect = card.played? () => {} :() => { this.handleCardSelect(card.id)}
       return(
         <CardTile image={playerImage}
                   key={card.id}
@@ -157,7 +155,8 @@ class GameShowContainer extends React.Component {
       playerTrack2.push(<div key={hole} className="player_track2"></div>)
     }
     let playerTrack = [playerTrack1, playerTrack2]
-    playerTrack = this.place_pegs(playerTrack, this.state.count)
+    playerTrack = this.place_pegs(playerTrack, this.state.playerScore)
+
     // track[this.state.playerScore] = <div key={this.state.playerScore} className="peg"></div>
     // playerTrack[0] = <div key='0' className="peg"></div>
     let opponentTrack1 = []
@@ -168,6 +167,8 @@ class GameShowContainer extends React.Component {
     for(let hole = 0; hole < 31; hole ++) {
       opponentTrack2.push(<div key={hole} className="opponent_track2"></div>)
     }
+    let opponentTrack = [opponentTrack1, opponentTrack2]
+    opponentTrack = this.place_pegs(opponentTrack, this.state.opponentScore)
 
     let showNewRoundButton = !this.state.inProgress && this.state.isActivePlayer
     let showGoButton = this.state.inProgress
