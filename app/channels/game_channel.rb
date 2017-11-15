@@ -10,72 +10,64 @@ class GameChannel < ApplicationCable::Channel
   end
 
   def receive(move)
-    # card_id = data["card_id"]
-    # card = Card.find(card_id)
-    # data = { "message": "#{card.rank}#{card.suit}"}
-    # ActionCable.server.broadcast("game_#{params[:game_id]}", data)
-    # string = "web_notifications:#{current_user.id}"
-    # binding.pry
-    # ActionCable.server.broadcast("user_#{current_user.id}", data)
-
     game = Game.find(params[:game_id])
     round = game.rounds.last
-    #check that it the user's turn
-    if round.active_player.user == current_user
-      player = round.player(current_user)
-      opponent = round.opponent(current_user)
-
-      #update the count if the player played a card
-      if move.keys.include?("new_round")
-        create
-      elsif move.keys.include?("card_id")
-        card_id = move["card_id"]
-        card = Card.find(card_id)
-        new_count = round.count + card.value
-
-        #if playing the card will keep the count at or below 31, update count and card
-        if new_count <= 31
-          card.update(played: true)
-          round.update(count: new_count)
-          update_score_on_card(round)
-          #set the active player and end the round or reset count if necessary
-          set_active_player(round)
-          return_game_state(round)
-        else
-          ActionCable.server.broadcast("user_#{current_user.id}", { message: "Count can't go over 31.  If you can't make a move, press 'Go'" })
-        end
-      elsif move.keys.include?("go")
-        if player.go
-          player.update(go: false)
-          round.update(count: 0)
-        else
-          opponent.update(go: true)
-          set_active_player(round)
-          message = "#{player.user.alias} gave a go ahead to #{opponent.user.alias}.  "
-        end
-        return_game_state(round)
-        # ActionCable.server.broadcast("game_#{params[:game_id]}", game_state_json(round))
-      else
-        ActionCable.server.broadcast("user_#{current_user.id}", { message: "Error did not get a card or go" })
-      end
+    #if game is over return final round state
+    if game.game_over?
+      return_game_state(round)
     else
-      ActionCable.server.broadcast("user_#{current_user.id}", { message: "it's not your turn" })
+      #check that it the user's turn
+      if round.active_player.user == current_user
+        player = round.player(current_user)
+        opponent = round.opponent(current_user)
+
+        #update the count if the player played a card
+        if move.keys.include?("new_round")
+          create
+        elsif move.keys.include?("card_id")
+          card_id = move["card_id"]
+          card = Card.find(card_id)
+          new_count = round.count + card.value
+
+          #if playing the card will keep the count at or below 31, update count and card
+          if new_count <= 31
+            card.update(played: true)
+            round.update(count: new_count)
+            score_on_card(round)
+            #set the active player and end the round or reset count if necessary
+            set_active_player(round)
+            return_game_state(round)
+          else
+            ActionCable.server.broadcast("user_#{current_user.id}", { message: "Count can't go over 31.  If you can't make a move, press 'Go'" })
+          end
+        elsif move.keys.include?("go")
+          if player.go
+            player.update(go: false)
+            round.update(count: 0)
+            set_active_player(round)
+          elsif !opponent.hand.empty?
+            opponent.update(go: true)
+            update_score(opponent, 1)
+            set_active_player(round)
+            message = "#{player.user.alias} gave a go ahead to #{opponent.user.alias}.  "
+          else
+            round.update(count: 0)
+          end
+          return_game_state(round)
+          # ActionCable.server.broadcast("game_#{params[:game_id]}", game_state_json(round))
+        else
+          ActionCable.server.broadcast("user_#{current_user.id}", { message: "Error did not get a card or go" })
+        end
+      else
+        ActionCable.server.broadcast("user_#{current_user.id}", { message: "it's not your turn" })
+      end
     end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   end
+
+
+
+
+
 
   private
 
@@ -93,7 +85,7 @@ class GameChannel < ApplicationCable::Channel
     player = round.player(user)
     opponent = round.opponent(user)
 
-    {
+    new_round = {
       "roundId": round.id,
       "playerAlias": player.user.alias,
       "playerHand": player.cards,
@@ -105,6 +97,11 @@ class GameChannel < ApplicationCable::Channel
       "isActivePlayer": round.active_player.user == user
 
     }
+
+    if round.game.game_over?
+      new_round[:message] = "#{round.game.winner.user.alias} wins!"
+    end
+    return new_round
   end
 
   def set_active_player(round)
@@ -127,25 +124,40 @@ class GameChannel < ApplicationCable::Channel
     end
   end
 
-  def update_score_on_card(round)
+  def score_on_card(round)
     player = round.player(current_user)
     opponent = round.opponent(current_user)
 
     new_points = 0
+
+    # 2 points for hitting 15 or 31 (only 1 point if player has a go b/c they already got one point)
     case round.count
     when 15
-      new_points = 2
+      new_points += 2
     when 31
-      new_points = 2
       round.update(count: 0)
+      if player.go
+        new_points += 1
+        player.update(go: false)
+      else
+        new_points += 2
+      end
     end
 
-    if new_points > 0
-      last_score = player.score
-      new_score = last_score + new_points
-      player.update(last_score: last_score, score: new_score)
+    # 1 point for last card
+    if player.hand.empty? && opponent.hand.empty?
+      new_points += 1
     end
 
+    update_score(player, new_points)
+  end
+
+  def update_score(player, points_to_add)
+    last_score = player.score
+    new_score = last_score + points_to_add
+    #Score can't go over 61 (if it hits 61 game is over)
+    new_score = new_score > 61 ? 61 : new_score
+    player.update(last_score: last_score, score: new_score)
   end
 
   def create
