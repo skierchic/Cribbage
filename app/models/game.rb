@@ -29,4 +29,20 @@ class Game < ApplicationRecord
       error_message = "Error: This game has #{self.players.count} players, needs 2 players to start"
     end
   end
+
+  #returns true if already ended, ends game, sets winner, and returns true if a player has 61 points, otherwise returns false
+  def game_over?
+    if !in_progress
+      return true
+    elsif players.first.score == 61
+      self.update(winner: players.first, in_progress: false)
+      return true
+    elsif players.second.score == 61
+      self.update(winner: players.second, in_progress: false)
+      return true
+    else
+      return false
+    end
+  end
+
 end
