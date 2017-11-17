@@ -87,6 +87,13 @@ body {
   overflow-y: scroll;
   height: 84vh;
   padding: 4rem 1rem;
+} .non_game_play p {
+  margin: 0 15%;
+} .non_game_play video {
+  margin: 0;
+} .non_game_play h4 {
+  margin-top: 1rem;
+  margin-bottom: .5rem;
 }
 .index_top {
   text-align: center;
