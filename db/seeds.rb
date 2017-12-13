@@ -6,8 +6,8 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-jack = User.create(alias: "Jack", email: "jack@gmail.com", password:"password")
-jill = User.create(alias: "Jill", email: "jill@gmail.com", password:"password")
+jack = User.create(name: "Jack", email: "jack@gmail.com", password:"password")
+jill = User.create(name: "Jill", email: "jill@gmail.com", password:"password")
 game = Game.create()
 player_jack = Player.create(game: game, user: jack)
 player_jill = Player.create(game: game, user: jill)

@@ -9,7 +9,7 @@ RSpec.describe Game, type: :model do
 
   it { should have_valid(:winner_id).when("", 2, 3)}
 
-  let!(:user) {User.create(alias: "Jane", email: "jane@gmail.com", password:"password")}
+  let!(:user) {User.create(name: "Jane", email: "jane@gmail.com", password:"password")}
   let!(:game) {Game.create()}
   let!(:player_jane) {Player.create(user: user, game: game)}
   let!(:game2) {Game.create}
@@ -19,7 +19,7 @@ RSpec.describe Game, type: :model do
 
   it "should be able to return the winner" do
     game.update(winner: player_jane)
-    expect(game.winner.user.alias).to eq("Jane")
+    expect(game.winner.user.name).to eq("Jane")
   end
 
   it "should be able to find any rounds associated with it" do

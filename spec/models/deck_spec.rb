@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Deck, type: :model do
-  let!(:jane) {User.create(alias: "Jane", email: "jane@gmail.com", password:"password")}
+  let!(:jane) {User.create(name: "Jane", email: "jane@gmail.com", password:"password")}
   let!(:game) {Game.create()}
   let!(:player_jane) {Player.create(game: game, user: jane)}
   let!(:round) {Round.create(game: game)}

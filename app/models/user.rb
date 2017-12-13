@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  validates :alias, presence: true
+  validates :name, presence: true
 
   has_many :players
   has_many :games, through: :players
