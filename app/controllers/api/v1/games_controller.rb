@@ -9,12 +9,6 @@ class Api::V1::GamesController < ApplicationController
       games_to_join = all_games_need_a_player.reject { |game| current_user.games.include?(game)}
       user_games_need_a_player = current_user.games.where(needs_a_player: true)
 
-      # render json: {"games":
-      #                 ActiveModel::Serializer::ArraySerializer.new(
-      #                   Game.all,
-      #                   serializer: GameSerializer
-      #                 )
-      #               }
       render :json => {
         "user_games_in_progress" => user_games_in_progress_json(user_games_in_progress),
         "games_to_join" => games_to_join_json(games_to_join),
@@ -64,7 +58,7 @@ class Api::V1::GamesController < ApplicationController
     user_games_in_progress.map do |game|
       {
         "id": game.id,
-        "players": [game.players.first.user.alias, game.players.second.user.alias],
+        "players": [game.players.first.user.name, game.players.second.user.name],
         "score": [game.players.first.score, game.players.second.score],
         "active_player": game.rounds.last.active_player_id,
         "last_played": game.rounds.last.updated_at.strftime('%a %l:%M%P')
@@ -76,7 +70,7 @@ class Api::V1::GamesController < ApplicationController
     games_to_join.map do |game|
       {
         "id": game.id,
-        "player": game.players.first.user.alias,
+        "player": game.players.first.user.name,
         "game_created_date": game.created_at.strftime('%a %l:%M%P')
       }
     end
@@ -99,12 +93,12 @@ class Api::V1::GamesController < ApplicationController
 
     {
       "roundId": round.id,
-      "playerAlias": current_user.alias,
+      "playerAlias": current_user.name,
       "playerHand": player.cards,
       "playerScore": player.score,
       "opponentScore": opponent.score,
       "count": round.count,
-      "message": "#{round.active_player.user.alias}'s turn",
+      "message": "#{round.active_player.user.name}'s turn",
       "inProgress": round.in_progress,
       "isActivePlayer": round.active_player.user == current_user
     }

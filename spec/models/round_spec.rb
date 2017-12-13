@@ -6,9 +6,9 @@ RSpec.describe Round, type: :model do
 
   it {should have_valid(:count).when(0, 2, 31)}
 
-  let!(:jane) {User.create(alias: "Jane", email: "jane@gmail.com", password:"password")}
-  let!(:jack) {User.create(alias: "Jack", email: "jack@gmail.com", password:"password")}
-  let!(:jill) {User.create(alias: "Jill", email: "jill@gmail.com", password:"password")}
+  let!(:jane) {User.create(name: "Jane", email: "jane@gmail.com", password:"password")}
+  let!(:jack) {User.create(name: "Jack", email: "jack@gmail.com", password:"password")}
+  let!(:jill) {User.create(name: "Jill", email: "jill@gmail.com", password:"password")}
   let!(:game) {Game.create()}
   let!(:game2) {Game.create()}
   let!(:player_jane) {Player.create(game: game, user: jane)}
@@ -43,7 +43,7 @@ RSpec.describe Round, type: :model do
   end
 
   it "should find the active player in the round" do
-    expect(round.active_player.user.alias).to eq("Jack")
+    expect(round.active_player.user.name).to eq("Jack")
   end
 
   it "should find the deck in the round" do

@@ -49,7 +49,7 @@ class GameChannel < ApplicationCable::Channel
             opponent.update(go: true)
             update_score(opponent, 1)
             set_active_player(round)
-            message = "#{player.user.alias} gave a go ahead to #{opponent.user.alias}.  "
+            message = "#{player.user.name} gave a go ahead to #{opponent.user.name}.  "
           else
             round.update(count: 0)
           end
@@ -87,19 +87,19 @@ class GameChannel < ApplicationCable::Channel
 
     new_round = {
       "roundId": round.id,
-      "playerAlias": player.user.alias,
+      "playerAlias": player.user.name,
       "playerHand": player.cards,
       "playerScore": player.score,
       "opponentScore": opponent.score,
       "count": round.count,
-      "message": message + "#{round.active_player.user.alias}'s turn",
+      "message": message + "#{round.active_player.user.name}'s turn",
       "inProgress": round.in_progress,
       "isActivePlayer": round.active_player.user == user
 
     }
 
     if round.game.game_over?
-      new_round[:message] = "#{round.game.winner.user.alias} wins!"
+      new_round[:message] = "#{round.game.winner.user.name} wins!"
     end
     return new_round
   end
@@ -180,8 +180,8 @@ class GameChannel < ApplicationCable::Channel
       end
     else
       error_message = ""
-      error_message += player.hand.empty? ? "" : "#{player.user.alias} still has cards to play.\n"
-      error_message += opponent.hand.empty? ? "" : "#{opponent.user.alias} still has cards to play.\n"
+      error_message += player.hand.empty? ? "" : "#{player.user.name} still has cards to play.\n"
+      error_message += opponent.hand.empty? ? "" : "#{opponent.user.name} still has cards to play.\n"
       return_message(current_user, error_message)
     end
   end

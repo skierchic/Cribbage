@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  it { should have_valid(:alias).when("Susie", "Bobby")}
-  it { should_not have_valid(:alias).when("")}
+  it { should have_valid(:name).when("Susie", "Bobby")}
+  it { should_not have_valid(:name).when("")}
 
-  let!(:susie) {User.create(alias: "Susie", email: "susie@gmail.com", password: "password")}
-  let!(:bobby) {User.create(alias: "Bobby", email: "bobby@gamcil.com", password: "password")}
+  let!(:susie) {User.create(name: "Susie", email: "susie@gmail.com", password: "password")}
+  let!(:bobby) {User.create(name: "Bobby", email: "bobby@gamcil.com", password: "password")}
   let!(:game1) {Game.create()}
   let!(:game2) {Game.create()}
   let!(:game3) {Game.create()}

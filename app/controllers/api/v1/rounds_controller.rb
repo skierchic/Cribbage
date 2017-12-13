@@ -21,8 +21,8 @@ class Api::V1::RoundsController < ApplicationController
   #     end
   #   else
   #     error_message = ""
-  #     error_message += player.hand.empty? ? "" : "#{player.user.alias} still has cards to play.\n"
-  #     error_message += opponent.hand.empty? ? "" : "#{opponent.user.alias} still has cards to play.\n"
+  #     error_message += player.hand.empty? ? "" : "#{player.user.name} still has cards to play.\n"
+  #     error_message += opponent.hand.empty? ? "" : "#{opponent.user.name} still has cards to play.\n"
   #     render :json => {"round": { message: error_message }}
   #   end
   # end
@@ -58,7 +58,7 @@ class Api::V1::RoundsController < ApplicationController
   #       else
   #         opponent.update(go: true)
   #         set_active_player(round)
-  #         message = "#{player.user.alias} gave a go ahead to #{opponent.user.alias}.  "
+  #         message = "#{player.user.name} gave a go ahead to #{opponent.user.name}.  "
   #       end
   #       render :json => {"round": game_state_json(round)}
   #     else
@@ -77,12 +77,12 @@ class Api::V1::RoundsController < ApplicationController
 
     {
       "roundId": round.id,
-      "playerAlias": current_user.alias,
+      "playerAlias": current_user.name,
       "playerHand": player.cards,
       "playerScore": player.score,
       "opponentScore": opponent.score,
       "count": round.count,
-      "message": message + "#{round.active_player.user.alias}'s turn",
+      "message": message + "#{round.active_player.user.name}'s turn",
       "inProgress": round.in_progress,
       "isActivePlayer": round.active_player.user == current_user
 
